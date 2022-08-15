@@ -396,9 +396,21 @@ function animate() {
       }
     }
   }
-  pellets.forEach((pellet) => {
+  for (let i = pellets.length - 1; 0 < i; i--) {
+    const pellet = pellets[i];
     pellet.draw();
-  });
+    if (
+      Math.hypot(
+        pellet.position.x - player.position.x,
+        pellet.position.y - player.position.y
+      ) <
+      pellet.radius + player.radius
+    ) {
+      console.log("touching");
+      pellets.splice(i, 1);
+    }
+  }
+
   boundaries.forEach((boundary) => {
     boundary.draw();
     if (
