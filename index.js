@@ -16,8 +16,6 @@ class Boundary {
     this.image = image;
   }
   draw() {
-    // c.fillStyle = "blue";
-    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
     c.drawImage(this.image, this.position.x, this.position.y);
   }
 }
@@ -429,8 +427,6 @@ function animate() {
     }
   });
   player.update();
-  //player.velocity.y = 0;
-  // player.velocity.x = 0;
 }
 animate();
 
