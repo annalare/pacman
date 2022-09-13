@@ -528,10 +528,38 @@ function animate() {
     });
     if (collisions.length > ghost.prevCollisions.length)
       ghost.prevCollisions = collisions;
+
     if (JSON.stringify(collisions) !== JSON.stringify(ghost.prevCollisions)) {
       const pathways = ghost.prevCollisions.filter((collision) => {
-        return collisions.includes(collision);
+        return !collisions.includes(collision);
       });
+
+      if (ghost.velocity.x > 0) ghost.prevCollisions.push("right");
+      else if (ghost.velocity.x < 0) ghost.prevCollisions.push("left");
+      else if (ghost.velocity.y < 0) ghost.prevCollisions.push("up");
+      else if (ghost.velocity.y > 0) ghost.prevCollisions.push("down");
+
+      const direction = pathways[Math.floor(Math.random() * pathways.length)];
+
+      switch (direction) {
+        case "down":
+          ghost.velocity.y = 5;
+          ghost.velocity.x = 0;
+          break;
+        case "up":
+          ghost.velocity.y = -5;
+          ghost.velocity.x = 0;
+          break;
+        case "right":
+          ghost.velocity.y = 0;
+          ghost.velocity.x = 5;
+          break;
+        case "left":
+          ghost.velocity.y = 0;
+          ghost.velocity.x = -5;
+          break;
+      }
+      ghost.prevCollisions = [];
     }
   });
 }
