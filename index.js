@@ -44,6 +44,7 @@ class Ghost {
     this.velocity = velocity;
     this.radius = 15;
     this.color = color;
+    this.prevCollisions = [];
   }
   draw() {
     c.beginPath();
@@ -80,7 +81,7 @@ const ghosts = [
       y: Boundary.height + Boundary.height / 2,
     },
     velocity: {
-      x: 0,
+      x: 5,
       y: 0,
     },
   }),
@@ -453,7 +454,6 @@ function animate() {
         rectangle: boundary,
       })
     ) {
-      console.log(" we are colliding");
       player.velocity.y = 0;
       player.velocity.x = 0;
     }
@@ -465,6 +465,7 @@ function animate() {
     const collisions = [];
     boundaries.forEach((boundary) => {
       if (
+        !collisions.includes("right") &&
         circleCollidesRetangle({
           circle: {
             ...ghost,
@@ -480,6 +481,7 @@ function animate() {
       }
 
       if (
+        !collisions.includes("left") &&
         circleCollidesRetangle({
           circle: {
             ...ghost,
@@ -494,6 +496,7 @@ function animate() {
         collisions.push("left");
       }
       if (
+        !collisions.includes("up") &&
         circleCollidesRetangle({
           circle: {
             ...ghost,
@@ -508,6 +511,7 @@ function animate() {
         collisions.push("up");
       }
       if (
+        !collisions.includes("down") &&
         circleCollidesRetangle({
           circle: {
             ...ghost,
@@ -522,7 +526,13 @@ function animate() {
         collisions.push("down");
       }
     });
-    console.log(collisions);
+    if (collisions.length > ghost.prevCollisions.length)
+      ghost.prevCollisions = collisions;
+    if (JSON.stringify(collisions) !== JSON.stringify(ghost.prevCollisions)) {
+      const pathways = ghost.prevCollisions.filter((collision) => {
+        return collisions.includes(collision);
+      });
+    }
   });
 }
 animate();
