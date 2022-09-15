@@ -87,6 +87,17 @@ const ghosts = [
       y: 0,
     },
   }),
+  new Ghost({
+    position: {
+      x: Boundary.width * 6 + Boundary.width / 2,
+      y: Boundary.height * 3 + Boundary.height / 2,
+    },
+    velocity: {
+      x: Ghost.speed,
+      y: 0,
+    },
+    color: "pink",
+  }),
 ];
 const player = new Player({
   position: {
